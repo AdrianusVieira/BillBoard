@@ -1,0 +1,11 @@
+{
+  "last_session": null,
+  "questions_asked": [],
+  "next": null,
+  "stack": "Python 3.11 + FastAPI + SQLModel + SQLite",
+  "patterns": {
+    "error_handling": "HTTPException from FastAPI",
+    "response_format": "SQLModel object or { message: string }",
+    "date_format": "YYYY-MM-DD"
+  }
+}
