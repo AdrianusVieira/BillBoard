@@ -1,0 +1,13 @@
+{
+  "last_session": null,
+  "stack": "React + Vite + Zustand + shadcn/ui + Tailwind",
+  "features_built": [],
+  "components_built": [],
+  "next": "bills feature",
+  "patterns": {
+    "component_style": "const Component = () => {}",
+    "imports": "absolute via @/",
+    "state": "one Zustand store per feature",
+    "api_calls": "handled inside feature hooks with loading and error states"
+  }
+}
