@@ -8,8 +8,9 @@ A personal bill and expense tracking application. Manage bills across different 
 
 ```
 billboard/
-├── backend/       ← Python API (FastAPI + SQLite)
+├── backend/       ← Python API (FastAPI + PostgreSQL)
 ├── frontend/      ← React app (Vite + TypeScript + Tailwind)
+├── start.sh       ← starts both servers with one command
 └── README.md
 ```
 
@@ -17,7 +18,17 @@ billboard/
 
 ## Running the project
 
-You'll need two terminals running simultaneously.
+The easiest way is to use the start script from the repo root:
+
+```bash
+./start.sh
+```
+
+This starts both the backend and frontend, and opens the browser automatically.
+
+---
+
+Or run them manually in two separate terminals:
 
 **Terminal 1 — Backend:**
 ```bash
@@ -40,7 +51,7 @@ The API will be available at `http://localhost:8000`.
 
 | Layer | Tools |
 |---|---|
-| Backend | Python 3.11, FastAPI, SQLModel, SQLite, uv |
+| Backend | Python 3.11, FastAPI, SQLModel, PostgreSQL (Supabase), uv |
 | Frontend | React, TypeScript, Vite, Tailwind, shadcn/ui, Zustand, TanStack Query |
 | Agent | Anthropic SDK (Claude) |
 
