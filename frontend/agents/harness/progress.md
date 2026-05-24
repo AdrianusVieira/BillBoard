@@ -17,6 +17,10 @@
 
 ## Components built
 _Updated by Bill Guy after each session._
+_Updated by Bill Guy after each session._
+
+- [x] Make modals opaque with white background and shadow (BillForm & Settings) — 2026-05-24
+- [x] Convert BillForm and Settings modals to shadcn-style accessible Dialog components (theme-aware) — 2026-05-24
 
 ## Decisions made
 - shadcn/ui for reusable components

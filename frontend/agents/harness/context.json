@@ -1,8 +1,14 @@
 {
-  "last_session": null,
+  "last_session": "2026-05-24",
   "stack": "React + Vite + Zustand + shadcn/ui + Tailwind",
   "features_built": [],
-  "components_built": [],
+  "components_built": [
+    "BillForm modal background update",
+    "Settings modal background update",
+    "Dialog UI component",
+    "BillForm converted to Dialog",
+    "Settings converted to Dialog"
+  ],
   "next": "bills feature",
   "patterns": {
     "component_style": "const Component = () => {}",
