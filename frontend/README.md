@@ -1,16 +1,115 @@
-# React + Vite
+# Billboard — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React application for the Billboard app. Built with TypeScript, Vite, Tailwind, shadcn/ui, Zustand and TanStack Query.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Requirements
 
-## React Compiler
+- Node.js 18+
+- npm
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+cd frontend
+npm install
+```
+
+---
+
+## Running
+
+```bash
+npm run dev
+```
+
+App available at `http://localhost:5173`.
+
+> The backend must be running at `http://localhost:8000` for the app to work.
+
+---
+
+## Structure
+
+```
+frontend/
+├── src/
+│   ├── features/
+│   │   ├── bills/
+│   │   │   ├── components/
+│   │   │   │   ├── BillCard.tsx       ← Single bill card
+│   │   │   │   ├── BillFilters.tsx    ← Search, date and status filters
+│   │   │   │   ├── BillForm.tsx       ← Add / edit bill modal
+│   │   │   │   ├── BillList.tsx       ← List of bill cards
+│   │   │   │   ├── BillStats.tsx      ← Total bills and total value
+│   │   │   │   └── BillsPage.tsx      ← Main bills screen
+│   │   │   ├── hooks/
+│   │   │   │   ├── useBillsQuery.ts   ← TanStack Query for bills API
+│   │   │   │   └── useBillsScreen.ts  ← Screen hook for BillsPage
+│   │   │   └── index.ts               ← Public exports
+│   │   └── groups/
+│   │       ├── components/
+│   │       │   └── GroupSettings.tsx  ← Settings panel for groups
+│   │       ├── hooks/
+│   │       │   ├── useGroupsQuery.ts        ← TanStack Query for groups API
+│   │       │   └── useGroupSettingsScreen.ts ← Screen hook for GroupSettings
+│   │       └── index.ts               ← Public exports
+│   ├── services/
+│   │   ├── http.ts                    ← Base fetch config
+│   │   ├── bills.service.ts           ← Bills API calls
+│   │   └── groups.service.ts          ← Groups API calls
+│   ├── shared/
+│   │   └── types/
+│   │       ├── IBill.ts
+│   │       ├── IBillPayload.ts
+│   │       ├── IGroup.ts
+│   │       ├── IGroupPayload.ts
+│   │       └── EStatusFilter.ts
+│   ├── lib/
+│   │   └── utils.ts                   ← Tailwind merge utility
+│   ├── components/
+│   │   └── ui/                        ← shadcn/ui components
+│   ├── App.tsx
+│   └── main.tsx
+└── agents/
+    ├── bill_guy.md                    ← Bill Guy instructions for Copilot
+    ├── harness/
+    │   ├── progress.md                ← What's built and what's next
+    │   ├── conventions.md             ← Frontend coding conventions
+    │   └── context.json               ← Structured state between sessions
+    └── skills/
+        ├── SKILL.md                   ← How to build a feature
+        ├── component_guide.md         ← Component, hook and store patterns
+        └── examples/
+            ├── feature.example.md
+            └── store.example.md
+```
+
+---
+
+## Conventions
+
+All frontend conventions are documented in `agents/harness/conventions.md`. Key points:
+
+- Feature-driven folder structure
+- Arrow function components: `const Component = () => {}`
+- Absolute imports via `@/`
+- Static texts in a `TEXTS` object outside the component
+- Two hooks per feature: query hook (TanStack Query) and screen hook
+- Screen hooks never expose setters — only handlers and values
+- One Zustand store per feature
+- shadcn/ui components before building custom ones
+
+---
+
+## Bill Guy (Copilot mode)
+
+The `agents/` folder contains Bill Guy — a set of instruction files that give Copilot context to build components consistently. Before asking Copilot to build anything, point it to the relevant files:
+
+```
+Read agents/bill_guy.md and agents/harness/conventions.md,
+then build a [component name] following those conventions.
+```
