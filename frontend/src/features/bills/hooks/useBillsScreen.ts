@@ -109,7 +109,15 @@ const useBillsScreen = () => {
     return matchesSearch && matchesStatus && matchesDateFrom && matchesDateTo;
   });
 
-  const totalValue = filteredBills.reduce(
+  const sortedBills = [...filteredBills].sort((a: IBill, b: IBill) => {
+    if (!a.term && !b.term) return 0;
+    if (!a.term) return 1;
+    if (!b.term) return -1;
+
+    return a.term.localeCompare(b.term);
+  });
+
+  const totalValue = sortedBills.reduce(
     (sum: number, bill: IBill) => sum + bill.value,
     0,
   );
@@ -119,7 +127,7 @@ const useBillsScreen = () => {
     dateTo,
     editing,
     error: query.error,
-    filteredBills,
+    filteredBills: sortedBills,
     groups: groupsQuery.data ?? [],
     isFormOpen,
     loading: query.isLoading,
