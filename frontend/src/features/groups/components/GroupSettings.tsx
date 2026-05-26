@@ -62,13 +62,13 @@ const GroupSettings = () => {
             <div className="flex gap-2">
               <button
                 onClick={() => handleEdit(group)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
               >
                 <Pencil className="w-4 h-4" />
               </button>
               <button
                 onClick={() => handleRemove(group.id)}
-                className="text-muted-foreground hover:text-destructive"
+                className="text-muted-foreground hover:text-destructive cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -101,14 +101,14 @@ const GroupSettings = () => {
           {editing && (
             <button
               onClick={handleCancel}
-              className="text-sm px-4 py-2 border rounded-md"
+              className="text-sm px-4 py-2 border rounded-md cursor-pointer transition-colors hover:bg-muted/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
             >
               {TEXTS.buttons.cancel}
             </button>
           )}
           <button
             onClick={handleSubmit}
-            className="text-sm px-4 py-2 bg-primary text-primary-foreground rounded-md"
+            className="text-sm px-4 py-2 bg-primary text-primary-foreground rounded-md cursor-pointer transition-transform hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
           >
             {editing ? TEXTS.buttons.updateGroup : TEXTS.buttons.newGroup}
           </button>

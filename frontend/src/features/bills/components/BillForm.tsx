@@ -109,7 +109,7 @@ const BillForm = ({ editing, groups, onClose, onSubmit }: BillFormProps) => {
               onChange={(e) =>
                 setGroupId(e.target.value ? Number(e.target.value) : undefined)
               }
-              className="border rounded-md px-3 py-2 text-sm w-full"
+              className="border rounded-md px-3 py-2 text-sm w-full cursor-pointer transition-colors hover:border-border/80 focus:border-primary focus:outline-none"
             >
               <option value="">No group</option>
               {groups.map((g) => (
@@ -130,7 +130,7 @@ const BillForm = ({ editing, groups, onClose, onSubmit }: BillFormProps) => {
               type="date"
               value={term}
               onChange={(e) => setTerm(e.target.value)}
-              className="border rounded-md px-3 py-2 text-sm w-full"
+              className="border rounded-md px-3 py-2 text-sm w-full transition-colors hover:border-border/80 focus:border-primary focus:outline-none"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -158,20 +158,20 @@ const BillForm = ({ editing, groups, onClose, onSubmit }: BillFormProps) => {
         <div className="flex gap-2 justify-end mt-2">
           <button
             onClick={onClose}
-            className="text-sm px-4 py-2 border rounded-md"
+            className="text-sm px-4 py-2 border rounded-md cursor-pointer transition-colors hover:bg-muted/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
           >
             {TEXTS.buttons.cancel}
           </button>
           <button
             onClick={handleSubmit}
-            className="text-sm px-4 py-2 bg-primary text-primary-foreground rounded-md"
+            className="text-sm px-4 py-2 bg-primary text-primary-foreground rounded-md cursor-pointer transition-transform hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
           >
             {editing ? TEXTS.buttons.update : TEXTS.buttons.create}
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default BillForm;

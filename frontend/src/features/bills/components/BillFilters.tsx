@@ -14,18 +14,18 @@ const TEXTS = {
     dateFrom: "From",
     search: "Search bills...",
   },
-}
+};
 
 interface BillFiltersProps {
-  dateFrom: string
-  dateTo: string
-  search: string
-  statusFilter: TStatusFilter
-  onClearDates: () => void
-  onChangeDateFrom: (value: string) => void
-  onChangeDateTo: (value: string) => void
-  onChangeSearch: (value: string) => void
-  onChangeStatusFilter: (value: TStatusFilter) => void
+  dateFrom: string;
+  dateTo: string;
+  search: string;
+  statusFilter: TStatusFilter;
+  onClearDates: () => void;
+  onChangeDateFrom: (value: string) => void;
+  onChangeDateTo: (value: string) => void;
+  onChangeSearch: (value: string) => void;
+  onChangeStatusFilter: (value: TStatusFilter) => void;
 }
 
 const BillFilters = ({
@@ -43,7 +43,7 @@ const BillFilters = ({
     EStatusFilter.All,
     EStatusFilter.Unpaid,
     EStatusFilter.Paid,
-  ]
+  ];
 
   return (
     <div className="flex flex-col gap-3">
@@ -59,18 +59,18 @@ const BillFilters = ({
           type="date"
           value={dateFrom}
           onChange={(e) => onChangeDateFrom(e.target.value)}
-          className="border rounded-md px-3 py-2 text-sm"
+          className="border rounded-md px-3 py-2 text-sm transition-colors hover:border-border/80 focus:border-primary focus:outline-none"
         />
         <span className="text-muted-foreground text-sm">→</span>
         <input
           type="date"
           value={dateTo}
           onChange={(e) => onChangeDateTo(e.target.value)}
-          className="border rounded-md px-3 py-2 text-sm"
+          className="border rounded-md px-3 py-2 text-sm transition-colors hover:border-border/80 focus:border-primary focus:outline-none"
         />
         <button
           onClick={onClearDates}
-          className="text-sm px-3 py-2 border rounded-md text-muted-foreground"
+          className="text-sm px-3 py-2 border rounded-md text-muted-foreground cursor-pointer transition-colors hover:bg-muted/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
         >
           {TEXTS.buttons.clear}
         </button>
@@ -85,14 +85,14 @@ const BillFilters = ({
               statusFilter === status
                 ? "bg-primary text-primary-foreground border-primary"
                 : "text-muted-foreground border-border"
-            }`}
+            } cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95`}
           >
             {TEXTS.filters[status]}
           </button>
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BillFilters
+export default BillFilters;

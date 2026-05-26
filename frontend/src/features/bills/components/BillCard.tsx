@@ -50,21 +50,21 @@ const BillCard = ({
             bill.paid
               ? "bg-green-50 text-green-700 border-green-200"
               : "bg-muted text-muted-foreground border-border"
-          }`}
+          } cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95`}
         >
           {bill.paid ? TEXTS.paid : TEXTS.unpaid}
         </button>
 
         <button
           onClick={() => onEdit(bill)}
-          className="text-muted-foreground hover:text-foreground"
+          className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
         >
           <Pencil className="w-4 h-4" />
         </button>
 
         <button
           onClick={() => onRemove(bill.id)}
-          className="text-muted-foreground hover:text-destructive"
+          className="text-muted-foreground hover:text-destructive cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
         >
           <Trash2 className="w-4 h-4" />
         </button>

@@ -1,5 +1,5 @@
 {
-  "last_session": "2026-05-24",
+  "last_session": "2026-05-25",
   "stack": "React + Vite + Zustand + shadcn/ui + Tailwind",
   "features_built": [],
   "components_built": [
@@ -7,7 +7,8 @@
     "Settings modal background update",
     "Dialog UI component",
     "BillForm converted to Dialog",
-    "Settings converted to Dialog"
+    "Settings converted to Dialog",
+    "Add hover/focus/clickable states to buttons and clickable components (BillCard, BillForm, BillFilters, BillsPage, GroupSettings)"
   ],
   "next": "bills feature",
   "patterns": {
