@@ -3,7 +3,10 @@ import { useBillsQuery } from "./useBillsQuery";
 import { useGroupsQuery } from "@/features/groups/hooks/useGroupsQuery";
 import IBill from "@/shared/types/IBill";
 import IBillPayload from "@/shared/types/IBillPayload";
-import { EStatusFilter, TStatusFilter} from "@/features/bills/types/TStatusFilter";
+import {
+  EStatusFilter,
+  TStatusFilter,
+} from "@/features/bills/types/TStatusFilter";
 
 const useBillsScreen = () => {
   const { query, create, update, remove } = useBillsQuery();
@@ -15,7 +18,7 @@ const useBillsScreen = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<TStatusFilter>(
-    EStatusFilter.All
+    EStatusFilter.All,
   );
 
   const handleClearDates = () => {
@@ -76,6 +79,19 @@ const useBillsScreen = () => {
     });
   };
 
+  const handleDuplicate = async (bill: IBill) => {
+    const payload: IBillPayload = {
+      name: bill.name,
+      value: bill.value,
+      group_id: bill.group_id,
+      term: bill.term,
+      ref: bill.ref,
+      paid: bill.paid,
+    };
+
+    await create.mutateAsync(payload);
+  };
+
   const filteredBills = (query.data ?? []).filter((bill: IBill) => {
     const matchesSearch = bill.name
       .toLowerCase()
@@ -121,6 +137,7 @@ const useBillsScreen = () => {
     handleRemove,
     handleSubmit,
     handleTogglePaid,
+    handleDuplicate,
   };
 };
 

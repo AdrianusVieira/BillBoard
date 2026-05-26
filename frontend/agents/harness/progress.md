@@ -26,6 +26,7 @@ _Updated by Bill Guy after each session._
 - [x] Convert BillForm and Settings modals to shadcn-style accessible Dialog components (theme-aware) — 2026-05-24
 
 - [x] Add hover/focus/clickable states to buttons and clickable components (BillCard, BillForm, BillFilters, BillsPage, GroupSettings) — 2026-05-25
+- [x] Add duplicate bill action to BillCard and bills screen hook — 2026-05-25
 
 ## Decisions made
 

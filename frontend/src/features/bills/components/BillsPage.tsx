@@ -45,6 +45,7 @@ const BillsPage = () => {
     handleRemove,
     handleSubmit,
     handleTogglePaid,
+    handleDuplicate,
   } = useBillsScreen();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -81,6 +82,7 @@ const BillsPage = () => {
         onEdit={handleOpenEdit}
         onRemove={handleRemove}
         onTogglePaid={handleTogglePaid}
+        onDuplicate={handleDuplicate}
       />
     </div>
   );

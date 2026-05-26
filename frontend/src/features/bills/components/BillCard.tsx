@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Copy, Pencil, Trash2 } from "lucide-react";
 import { useMemo } from "react";
 import IBill from "@/shared/types/IBill";
 import IGroup from "@/shared/types/IGroup";
@@ -14,11 +14,13 @@ interface BillCardProps {
   onEdit: (bill: IBill) => void;
   onRemove: (id: number) => void;
   onTogglePaid: (bill: IBill) => void;
+  onDuplicate: (bill: IBill) => void;
 }
 
 const BillCard = ({
   bill,
   groups,
+  onDuplicate,
   onEdit,
   onRemove,
   onTogglePaid,
@@ -53,6 +55,14 @@ const BillCard = ({
           } cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95`}
         >
           {bill.paid ? TEXTS.paid : TEXTS.unpaid}
+        </button>
+
+        <button
+          onClick={() => onDuplicate(bill)}
+          className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
+          aria-label={`Duplicate ${bill.name}`}
+        >
+          <Copy className="w-4 h-4" />
         </button>
 
         <button

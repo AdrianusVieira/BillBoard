@@ -12,6 +12,7 @@ interface BillListProps {
   onEdit: (bill: IBill) => void;
   onRemove: (id: number) => void;
   onTogglePaid: (bill: IBill) => void;
+  onDuplicate: (bill: IBill) => void;
 }
 
 const BillList = ({
@@ -20,6 +21,7 @@ const BillList = ({
   onEdit,
   onRemove,
   onTogglePaid,
+  onDuplicate,
 }: BillListProps) => {
   const isEmpty = bills.length === 0;
 
@@ -39,6 +41,7 @@ const BillList = ({
           onEdit={onEdit}
           onRemove={onRemove}
           onTogglePaid={onTogglePaid}
+          onDuplicate={onDuplicate}
         />
       ))}
     </div>
