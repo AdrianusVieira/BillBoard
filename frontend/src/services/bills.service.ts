@@ -1,5 +1,5 @@
 import http from "./http";
-import IBillPayload from "@/shared/types/IBillPayload";
+import IBillPayload from "@/shared/interfaces/IBillPayload";
 
 export const getBills = () => http("/bills/");
 

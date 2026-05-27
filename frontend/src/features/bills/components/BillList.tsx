@@ -1,5 +1,6 @@
-import IBill from "@/shared/types/IBill";
-import IGroup from "@/shared/types/IGroup";
+import IBill from "@/shared/interfaces/IBill";
+import IRecurrent from "@/shared/interfaces/IRecurrent";
+import IGroup from "@/shared/interfaces/IGroup";
 import BillCard from "./BillCard";
 
 const TEXTS = {
@@ -9,6 +10,7 @@ const TEXTS = {
 interface BillListProps {
   bills: IBill[];
   groups: IGroup[];
+  recurrents: IRecurrent[];
   onEdit: (bill: IBill) => void;
   onRemove: (id: number) => void;
   onTogglePaid: (bill: IBill) => void;
@@ -18,6 +20,7 @@ interface BillListProps {
 const BillList = ({
   bills,
   groups,
+  recurrents,
   onEdit,
   onRemove,
   onTogglePaid,
@@ -38,6 +41,7 @@ const BillList = ({
           key={bill.id}
           bill={bill}
           groups={groups}
+          recurrents={recurrents}
           onEdit={onEdit}
           onRemove={onRemove}
           onTogglePaid={onTogglePaid}

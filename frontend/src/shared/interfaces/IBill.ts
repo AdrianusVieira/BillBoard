@@ -6,4 +6,5 @@ export default interface IBill {
   term?: string;
   ref?: string;
   paid: boolean;
+  recurrent_id?: string | null;
 }

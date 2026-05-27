@@ -1,5 +1,5 @@
 import http from "./http";
-import IGroupPayload from "@/shared/types/IGroupPayload";
+import IGroupPayload from "@/shared/interfaces/IGroupPayload";
 
 export const getGroups = () => http("/groups/");
 

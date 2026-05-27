@@ -5,7 +5,7 @@ import {
   updateGroup,
   deleteGroup,
 } from "@/services/groups.service";
-import IGroupPayload from "@/shared/types/IGroupPayload";
+import IGroupPayload from "@/shared/interfaces/IGroupPayload";
 
 export const useGroupsQuery = () => {
   const queryClient = useQueryClient();

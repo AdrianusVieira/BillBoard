@@ -1,6 +1,6 @@
 import { Pencil, Trash2 } from "lucide-react";
 import useGroupSettingsScreen from "@/features/groups/hooks/useGroupSettingsScreen";
-import IGroup from "@/shared/types/IGroup";
+import IGroup from "@/shared/interfaces/IGroup";
 
 const TEXTS = {
   buttons: {

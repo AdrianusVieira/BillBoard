@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import IGroup from "@/shared/types/IGroup";
+import IGroup from "@/shared/interfaces/IGroup";
 
 interface GroupStore {
   groups: IGroup[];

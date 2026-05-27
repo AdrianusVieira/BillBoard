@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Plus, Settings } from "lucide-react";
 import { GroupSettings } from "@/features/groups";
+import RecurrentSettings from "@/features/recurrent/components/RecurrentSettings";
 import useBillsScreen from "@/features/bills/hooks/useBillsScreen";
 import BillFilters from "./BillFilters";
 import BillForm from "./BillForm";
@@ -17,6 +18,10 @@ const TEXTS = {
   settings: {
     close: "✕",
     title: "Settings",
+    tabs: {
+      groups: "Groups",
+      recurrent: "Recurrent",
+    },
   },
   title: "Bill Board",
 };
@@ -31,6 +36,7 @@ const BillsPage = () => {
     groups,
     isFormOpen,
     loading,
+    recurrents,
     search,
     statusFilter,
     totalValue,
@@ -49,6 +55,9 @@ const BillsPage = () => {
   } = useBillsScreen();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [settingsTab, setSettingsTab] = useState<"groups" | "recurrent">(
+    "groups",
+  );
 
   const shouldRenderContent = !loading && !error;
 
@@ -79,6 +88,7 @@ const BillsPage = () => {
       <BillList
         bills={filteredBills}
         groups={groups}
+        recurrents={recurrents}
         onEdit={handleOpenEdit}
         onRemove={handleRemove}
         onTogglePaid={handleTogglePaid}
@@ -99,7 +109,35 @@ const BillsPage = () => {
             {TEXTS.settings.close}
           </button>
         </div>
-        <GroupSettings />
+
+        {/* Tabs */}
+        <div className="flex gap-0 border-b">
+          <button
+            onClick={() => setSettingsTab("groups")}
+            className={`text-sm px-4 py-2 border-b-2 transition-colors cursor-pointer focus:outline-none ${
+              settingsTab === "groups"
+                ? "border-primary text-primary font-medium"
+                : "border-transparent text-muted-foreground hover:text-foreground"
+            }`}
+            style={{ marginBottom: "-1px" }}
+          >
+            {TEXTS.settings.tabs.groups}
+          </button>
+          <button
+            onClick={() => setSettingsTab("recurrent")}
+            className={`text-sm px-4 py-2 border-b-2 transition-colors cursor-pointer focus:outline-none ${
+              settingsTab === "recurrent"
+                ? "border-primary text-primary font-medium"
+                : "border-transparent text-muted-foreground hover:text-foreground"
+            }`}
+            style={{ marginBottom: "-1px" }}
+          >
+            {TEXTS.settings.tabs.recurrent}
+          </button>
+        </div>
+
+        {settingsTab === "groups" && <GroupSettings />}
+        {settingsTab === "recurrent" && <RecurrentSettings />}
       </div>
     </div>
   );
@@ -136,6 +174,7 @@ const BillsPage = () => {
         <BillForm
           editing={editing}
           groups={groups}
+          recurrents={recurrents}
           onClose={handleCloseForm}
           onSubmit={handleSubmit}
         />

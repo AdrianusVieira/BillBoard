@@ -1,7 +1,10 @@
+import IBill from "@/shared/interfaces/IBill";
+import IBillPayload from "@/shared/interfaces/IBillPayload";
+import IGroup from "@/shared/interfaces/IGroup";
+import IRecurrent from "@/shared/interfaces/IRecurrent";
+import IRecurrentPayload from "@/shared/interfaces/IRecurrentPayload";
+import { EFrequency, TFrequency } from "@/shared/types/TFrequency";
 import { useState, useEffect } from "react";
-import IBill from "@/shared/types/IBill";
-import IBillPayload from "@/shared/types/IBillPayload";
-import IGroup from "@/shared/types/IGroup";
 
 const TEXTS = {
   buttons: {
@@ -16,27 +19,52 @@ const TEXTS = {
     ref: "Referente a",
     term: "Term (due date)",
     value: "R$ Value *",
+    recurrent: "Recurrent bill",
+    frequency: "Frequency",
+    recurrentDay: "Recurrent day",
+    variableValue: "Variable value",
   },
   titles: {
     create: "Add bill",
     update: "Edit bill",
+  },
+  frequency: {
+    weekly: "Weekly",
+    monthly: "Monthly",
+    yearly: "Yearly",
   },
 };
 
 interface BillFormProps {
   editing: IBill | null;
   groups: IGroup[];
+  recurrents: IRecurrent[];
   onClose: () => void;
-  onSubmit: (payload: IBillPayload) => void;
+  onSubmit: (
+    payload: IBillPayload,
+    recurrentPayload?: IRecurrentPayload,
+  ) => void;
 }
 
-const BillForm = ({ editing, groups, onClose, onSubmit }: BillFormProps) => {
+const BillForm = ({
+  editing,
+  groups,
+  recurrents,
+  onClose,
+  onSubmit,
+}: BillFormProps) => {
   const [groupId, setGroupId] = useState<number | undefined>(undefined);
   const [name, setName] = useState("");
   const [paid, setPaid] = useState(false);
   const [ref, setRef] = useState("");
   const [term, setTerm] = useState("");
   const [value, setValue] = useState("");
+
+  // Recurrent fields
+  const [isRecurrent, setIsRecurrent] = useState(false);
+  const [frequency, setFrequency] = useState<TFrequency>(EFrequency.Monthly);
+  const [recurrentDay, setRecurrentDay] = useState("");
+  const [isVariable, setIsVariable] = useState(false);
 
   useEffect(() => {
     if (editing) {
@@ -46,6 +74,17 @@ const BillForm = ({ editing, groups, onClose, onSubmit }: BillFormProps) => {
       setRef(editing.ref ?? "");
       setTerm(editing.term ?? "");
       setValue(String(editing.value));
+
+      // If editing a recurrent bill, pre-fill recurrent fields
+      if (editing.recurrent_id) {
+        const recurrent = recurrents.find((r) => r.id === editing.recurrent_id);
+        if (recurrent) {
+          setIsRecurrent(true);
+          setFrequency(recurrent.frequency);
+          setRecurrentDay(String(recurrent.recurrent_day));
+          setIsVariable(recurrent.is_variable);
+        }
+      }
     } else {
       setGroupId(undefined);
       setName("");
@@ -53,20 +92,38 @@ const BillForm = ({ editing, groups, onClose, onSubmit }: BillFormProps) => {
       setRef("");
       setTerm("");
       setValue("");
+      setIsRecurrent(false);
+      setFrequency(EFrequency.Monthly);
+      setRecurrentDay("");
+      setIsVariable(false);
     }
-  }, [editing]);
+  }, [editing, recurrents]);
 
   const handleSubmit = () => {
     if (!name.trim() || !value) return;
 
-    onSubmit({
+    const billPayload: IBillPayload = {
       group_id: groupId,
       name,
       paid,
       ref,
       term,
       value: parseFloat(value),
-    });
+      recurrent_id: editing?.recurrent_id ?? null,
+    };
+
+    let recurrentPayload: IRecurrentPayload | undefined;
+
+    if (isRecurrent && recurrentDay) {
+      recurrentPayload = {
+        is_variable: isVariable,
+        estimated_value: parseFloat(value),
+        frequency,
+        recurrent_day: parseInt(recurrentDay),
+      };
+    }
+
+    onSubmit(billPayload, recurrentPayload);
   };
 
   return (
@@ -109,7 +166,7 @@ const BillForm = ({ editing, groups, onClose, onSubmit }: BillFormProps) => {
               onChange={(e) =>
                 setGroupId(e.target.value ? Number(e.target.value) : undefined)
               }
-              className="border rounded-md px-3 py-2 text-sm w-full cursor-pointer transition-colors hover:border-border/80 focus:border-primary focus:outline-none"
+              className="border rounded-md px-3 py-2 text-sm w-full cursor-pointer"
             >
               <option value="">No group</option>
               {groups.map((g) => (
@@ -130,7 +187,7 @@ const BillForm = ({ editing, groups, onClose, onSubmit }: BillFormProps) => {
               type="date"
               value={term}
               onChange={(e) => setTerm(e.target.value)}
-              className="border rounded-md px-3 py-2 text-sm w-full transition-colors hover:border-border/80 focus:border-primary focus:outline-none"
+              className="border rounded-md px-3 py-2 text-sm w-full"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -145,6 +202,66 @@ const BillForm = ({ editing, groups, onClose, onSubmit }: BillFormProps) => {
             />
           </div>
         </div>
+
+        {/* Recurrent section — only show when creating */}
+        {!editing && (
+          <div className="border rounded-md p-3 bg-muted/30 flex flex-col gap-3">
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={isRecurrent}
+                onChange={(e) => setIsRecurrent(e.target.checked)}
+              />
+              {TEXTS.fields.recurrent}
+            </label>
+
+            {isRecurrent && (
+              <div className="flex flex-col gap-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs text-muted-foreground">
+                      {TEXTS.fields.frequency}
+                    </label>
+                    <select
+                      value={frequency}
+                      onChange={(e) =>
+                        setFrequency(e.target.value as TFrequency)
+                      }
+                      className="border rounded-md px-3 py-2 text-sm w-full cursor-pointer"
+                    >
+                      <option value="monthly">{TEXTS.frequency.monthly}</option>
+                      <option value="weekly">{TEXTS.frequency.weekly}</option>
+                      <option value="yearly">{TEXTS.frequency.yearly}</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs text-muted-foreground">
+                      {TEXTS.fields.recurrentDay}
+                    </label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={31}
+                      placeholder="15"
+                      value={recurrentDay}
+                      onChange={(e) => setRecurrentDay(e.target.value)}
+                      className="border rounded-md px-3 py-2 text-sm w-full"
+                    />
+                  </div>
+                </div>
+
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={isVariable}
+                    onChange={(e) => setIsVariable(e.target.checked)}
+                  />
+                  {TEXTS.fields.variableValue}
+                </label>
+              </div>
+            )}
+          </div>
+        )}
 
         <label className="flex items-center gap-2 text-sm cursor-pointer">
           <input

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useGroupsQuery } from "./useGroupsQuery";
-import IGroup from "@/shared/types/IGroup";
+import IGroup from "@/shared/interfaces/IGroup";
 
 const useGroupSettingsScreen = () => {
   const { query, create, update, remove } = useGroupsQuery();

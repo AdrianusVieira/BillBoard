@@ -5,4 +5,5 @@ export default interface IBillPayload {
   term?: string;
   ref?: string;
   paid: boolean;
+  recurrent_id?: string | null;
 }
