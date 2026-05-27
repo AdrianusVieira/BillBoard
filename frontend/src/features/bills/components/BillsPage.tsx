@@ -53,6 +53,7 @@ const BillsPage = () => {
     handleSubmit,
     handleTogglePaid,
     handleDuplicate,
+    refreshData,
   } = useBillsScreen();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -67,6 +68,7 @@ const BillsPage = () => {
     setIsReloading(true);
     try {
       await generateRecurrentBills();
+      await refreshData();
     } catch (error) {
       console.error("Failed to reload recurrent bills:", error);
     } finally {

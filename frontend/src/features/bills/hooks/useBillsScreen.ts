@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useBillsQuery } from "./useBillsQuery";
 import { useGroupsQuery } from "@/features/groups/hooks/useGroupsQuery";
 import { useRecurrentsQuery } from "@/features/recurrent/hooks/useRecurrentsQuery";
@@ -11,6 +12,7 @@ import IBillPayload from "@/shared/interfaces/IBillPayload";
 import IRecurrentPayload from "@/shared/interfaces/IRecurrentPayload";
 
 const useBillsScreen = () => {
+  const queryClient = useQueryClient();
   const { query, create, update, remove } = useBillsQuery();
   const { query: groupsQuery } = useGroupsQuery();
   const { query: recurrentsQuery, create: createRecurrent } =
@@ -95,6 +97,11 @@ const useBillsScreen = () => {
     await create.mutateAsync(payload);
   };
 
+  const refreshData = async () => {
+    await queryClient.invalidateQueries({ queryKey: ["bills"] });
+    await queryClient.invalidateQueries({ queryKey: ["recurrents"] });
+  };
+
   const filteredBills = (query.data ?? []).filter((bill: IBill) => {
     const matchesSearch = bill.name
       .toLowerCase()
@@ -145,6 +152,7 @@ const useBillsScreen = () => {
     handleSubmit,
     handleTogglePaid,
     handleDuplicate,
+    refreshData,
   };
 };
 
