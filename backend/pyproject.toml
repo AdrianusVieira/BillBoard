@@ -9,6 +9,7 @@ dependencies = [
     "fastapi>=0.136.1",
     "psycopg2-binary>=2.9.12",
     "python-dotenv>=1.2.2",
+    "python-dateutil>=2.8.2",
     "sqlmodel>=0.0.38",
     "uvicorn>=0.47.0",
 ]
