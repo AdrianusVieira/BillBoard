@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Settings } from "lucide-react";
+import { Plus, Settings, RefreshCcw } from "lucide-react";
 import { GroupSettings } from "@/features/groups";
 import RecurrentSettings from "@/features/recurrent/components/RecurrentSettings";
 import useBillsScreen from "@/features/bills/hooks/useBillsScreen";
@@ -7,6 +7,7 @@ import BillFilters from "./BillFilters";
 import BillForm from "./BillForm";
 import BillList from "./BillList";
 import BillStats from "./BillStats";
+import { generateRecurrentBills } from "@/services/jobs.service";
 
 const TEXTS = {
   buttons: {
@@ -58,8 +59,20 @@ const BillsPage = () => {
   const [settingsTab, setSettingsTab] = useState<"groups" | "recurrent">(
     "groups",
   );
+  const [isReloading, setIsReloading] = useState(false);
 
   const shouldRenderContent = !loading && !error;
+
+  const handleReloadRecurrent = async () => {
+    setIsReloading(true);
+    try {
+      await generateRecurrentBills();
+    } catch (error) {
+      console.error("Failed to reload recurrent bills:", error);
+    } finally {
+      setIsReloading(false);
+    }
+  };
 
   const showLoading = () => (
     <p className="text-sm text-muted-foreground text-center py-8">
@@ -148,6 +161,14 @@ const BillsPage = () => {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold">{TEXTS.title}</h1>
           <div className="flex gap-2">
+            <button
+              onClick={handleReloadRecurrent}
+              disabled={isReloading}
+              className="flex items-center gap-2 text-sm px-4 py-2 border rounded-md text-muted-foreground cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <RefreshCcw className="w-4 h-4" />
+              {isReloading ? "Reloading..." : "Reload"}
+            </button>
             <button
               onClick={() => setIsSettingsOpen(true)}
               className="flex items-center gap-2 text-sm px-4 py-2 border rounded-md text-muted-foreground cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/50 active:scale-95"
