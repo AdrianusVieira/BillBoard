@@ -13,6 +13,11 @@ export const useRecurrentsQuery = () => {
   const query = useQuery({
     queryKey: ["recurrents"],
     queryFn: getRecurrents,
+    // Avoid aggressive retries/refetches in development or when the backend is unavailable
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const create = useMutation({

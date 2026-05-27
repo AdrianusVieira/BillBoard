@@ -7,7 +7,11 @@ import models
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    create_db()
+    try:
+        create_db()
+    except Exception as e:
+        # Provide a clearer startup error so logs are actionable
+        raise RuntimeError(f"Application failed to start due to database error: {e}") from e
     yield
 
 app = FastAPI(lifespan=lifespan)
